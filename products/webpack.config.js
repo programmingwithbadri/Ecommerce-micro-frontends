@@ -1,4 +1,6 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ModuleFedarationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
+
 module.exports = {
     mode: 'development',
     devServer: {
@@ -6,6 +8,13 @@ module.exports = {
     },
     entry: './src/index.js',
     plugins: [
+        new ModuleFedarationPlugin({
+            name: 'products',
+            filename: 'remoteEntry.js',
+            exposes: {
+                './ProductsIndex': './src/index',
+            },
+        }),
         new HtmlWebpackPlugin({
             template: './public/index.html',
         }),
